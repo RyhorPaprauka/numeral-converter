@@ -13,28 +13,14 @@ class NumeralsConverterServiceTest {
     private NumeralsConverterService converterService = new NumeralsConverterService();
 
     @ParameterizedTest
-    @MethodSource("provideValidTestValues")
+    @MethodSource("com.danskebank.numeralsconverter.util.TestValues#provideValidTestValues")
     void givenValidNumber_thenValidNumericIsReturned(Integer number, String numeric) {
         assertThat(converterService.convert(number)).isEqualTo(numeric);
     }
 
     @ParameterizedTest
-    @MethodSource("provideValidTestValues")
+    @MethodSource("com.danskebank.numeralsconverter.util.TestValues#provideValidTestValues")
     void givenValidNumeric_thenValidNumberIsReturned(Integer number, String numeric) {
         assertThat(converterService.convert(numeric)).isEqualTo(number);
-    }
-
-    private static Stream<Arguments> provideValidTestValues() {
-        return Stream.of(
-                Arguments.of(1, "I"),
-                Arguments.of(4, "IV"),
-                Arguments.of(9, "IX"),
-                Arguments.of(90, "XC"),
-                Arguments.of(95, "XCV"),
-                Arguments.of(900, "CM"),
-                Arguments.of(1903, "MCMIII"),
-                Arguments.of(1997, "MCMXCVII"),
-                Arguments.of(400, "CD"),
-                Arguments.of(4000, "MMMM"));
     }
 }
