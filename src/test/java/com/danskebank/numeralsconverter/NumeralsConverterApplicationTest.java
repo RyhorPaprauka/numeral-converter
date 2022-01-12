@@ -3,6 +3,8 @@ package com.danskebank.numeralsconverter;
 import com.danskebank.numeralsconverter.controller.NumeralConverterController;
 import com.danskebank.numeralsconverter.service.NumeralsConverterService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,18 +27,20 @@ class NumeralsConverterApplicationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    void givenValidNumber_thenResultIsOkAndValid() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(CONVERT + NUMBER + "/" + CM.getValue()).contentType(APPLICATION_JSON))
+    @ParameterizedTest
+    @MethodSource("com.danskebank.numeralsconverter.util.TestValues#provideValidTestValues")
+    void givenValidNumber_thenResultIsOkAndValid(Integer number, String numeric) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(CONVERT + NUMBER + "/" + number).contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(CM.name())));
+                .andExpect(jsonPath("$", is(numeric)));
     }
 
-    @Test
-    void givenValidNumeral_thenResultIsOkAndValid() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(CONVERT + NUMERAL + "/" + CM.name()).contentType(APPLICATION_JSON))
+    @ParameterizedTest
+    @MethodSource("com.danskebank.numeralsconverter.util.TestValues#provideValidTestValues")
+    void givenValidNumeral_thenResultIsOkAndValid(Integer number, String numeric) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(CONVERT + NUMERAL + "/" + numeric).contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(CM.getValue())));
+                .andExpect(jsonPath("$", is(number)));
     }
 
 }
