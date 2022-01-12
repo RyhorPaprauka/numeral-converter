@@ -46,11 +46,11 @@ class NumeralConverterControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, -1, 4000, 125463457})
+    @ValueSource(ints = {0, -1, 4001, 125463457})
     void givenInvalidNumber_then404IsReturned(Integer invalidValue) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(CONVERT + NUMBER + "/" + invalidValue).contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$", is("must be between 1 and 3999")));
+                .andExpect(jsonPath("$", is("must be between 1 and 4000")));
         verify(converterService, never()).convert(anyInt());
     }
 
