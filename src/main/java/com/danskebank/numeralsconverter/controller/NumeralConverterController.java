@@ -35,7 +35,7 @@ public class NumeralConverterController {
     }
 
     @GetMapping(NUMBER + "/{value}")
-    public ResponseEntity<String> convertDigit(@PathVariable @Range(min = 1, max = 3999) Integer value) {
+    public ResponseEntity<String> convertDigit(@PathVariable @Range(min = 1, max = 4000) Integer value) {
         return ResponseEntity.ok(converterService.convert(value));
     }
 
